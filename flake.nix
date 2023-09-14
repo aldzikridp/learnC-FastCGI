@@ -1,5 +1,5 @@
 {
-  description = "Proposal Pra-Skripsi";
+  description = "LearnC-FastCGI";
   inputs = {
     nixpkgs.url = github:NixOS/nixpkgs/nixpkgs-unstable;
 
@@ -18,8 +18,15 @@
           default = pkgs.mkShell {
             buildInputs = with pkgs; [
               fcgi
-              llvmPackages_15.clang
+              json_c
+              nginx
+              ccls
+              gcc
             ];
+            shellHook = ''
+              # Nginx only want to read conf file with full path (idk why)
+              alias serve='nginx -c "$(readlink -f ./nginx.conf)"'
+            '';
           };
         });
     };
