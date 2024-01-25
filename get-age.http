@@ -1,0 +1,10 @@
+POST http://127.0.0.1:8081/
+Content-Type: application/json
+
+{
+  "name": "John",
+  "lastname": "Doe",
+  "birthyear": 1997,
+  "birthmonth": 9,
+  "birthday": 19
+}
