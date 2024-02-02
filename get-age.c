@@ -65,6 +65,9 @@ int main(void) {
     printf("Incoming request\n");
 
     char *request_method = FCGX_GetParam("REQUEST_METHOD", app_request.envp);
+    char *client_addr = FCGX_GetParam("REMOTE_ADDR", app_request.envp);
+
+    printf("Client IP: %s\n",client_addr);
 
     if (strcmp(request_method, "POST") == 0) {
 
@@ -103,7 +106,9 @@ int main(void) {
                    "%s",app_status, content_buffer);
       FCGX_Finish_r(&app_request);
       free(content_buffer);
+      content_buffer = NULL;
       free(fullname);
+      fullname = NULL;
       json_object_put(json_req);
     }
   }
