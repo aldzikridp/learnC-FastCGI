@@ -7,6 +7,7 @@
 
 char *get_post_request_str(FCGX_Request app_request){
   int content_length = atoi(FCGX_GetParam("CONTENT_LENGTH", app_request.envp));
+  printf("content length: %d\n", content_length);
   char *content_buffer = malloc((content_length + 1) * sizeof(*content_buffer));
   FCGX_GetStr(content_buffer, content_length, app_request.in);
   content_buffer[content_length] = '\0';
@@ -18,13 +19,9 @@ char *get_fullname(json_object *json_req){
   json_object *tmp_name = json_object_object_get(json_req, "name");
   json_object *tmp_lastname = json_object_object_get(json_req, "lastname");
 
-  int name_length = json_object_get_string_len(tmp_name);
-  int lastname_length = json_object_get_string_len(tmp_lastname);
-  int fullname_length = name_length + lastname_length + 2; // Extra 2 spaces for space and terminator
-
   char *name = strdup(json_object_get_string(tmp_name));
   char *lastname = strdup(json_object_get_string(tmp_lastname));
-  char *fullname = malloc(fullname_length * sizeof(*fullname));
+  char *fullname = malloc(strlen(name) + strlen(lastname) + 1);
 
   strcat(fullname, name);
   strcat(fullname, " ");
